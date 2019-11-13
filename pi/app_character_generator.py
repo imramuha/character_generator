@@ -29,42 +29,33 @@ try:
         'databaseURL' : 'https://character-generator-695b1.firebaseio.com/'
     })
     
-    root = db.reference('characters').child('-LtNOha8Bnuc37xznofH').get()
-    print(root)
+    ref = db.reference('characters').child('selected')
 
     
 except:
     print('Error with DB! Stopping the application...')
     sys.exit(1)
-#
-
-# get random arcade matrix
-'''def get_random_arcade_matrix():
-    pattern = ''
-    matrix = []
-    for r in range(0,8):
-        temp_str = ''
-        for c in range(0, 4):
-            temp_str = temp_str + str(round(random.random()))
-
-        # spiegeling
-        temp_str = temp_str + temp_str[::-1]
-        pattern = pattern + temp_str                   
-                    
-    for p in range(0,64):
-        bit = int(pattern[p])
-        color = COLOR_BLUE if bit == 1 else COLOR_BLACK
-        matrix.append(color)
-
-    return(matrix)
-    '''
 
 def main():
     while True:
-        '''matrix = get_random_arcade_matrix()
+        #retrieve data
+        root = ref.get()
+        
+        
+        # remove the u prefix from the list
+        data = map(str, root)
 
-        sense_hat.set_pixels(matrix)'''
-        sleep(3)
+        
+        # replace all the rgb with nothing
+        data[:] = [s.replace("rgb", '') for s in data]
+
+        # change the strings inside the list into color tuples
+        res = list(map(eval, data))       
+
+        sense_hat.set_pixels(res)
+        
+        sleep(1)
+        print('Current colors tuple:', res)  
 
 if __name__ == "__main__":
     try:
@@ -74,4 +65,3 @@ if __name__ == "__main__":
     finally:
         print('Cleaning up the mess...')
         sys.exit(0)
-        
