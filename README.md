@@ -8,5 +8,6 @@ Maak een applicatie waarmee een bezoeker (client) via een webapplicatie realtime
 
 **Extra:**
 - Gebruiker kan alle gemaakte characters bekijken;
-- Gebruiker kan bestaande characters selecteren;
+- Gebruiker kan bestaande characters selecteren en bijwerken;
+- Gebruiker kan reeds gemaakte characters afpelen in een loop op de pi.
 - Gebruiker kan reeds gemaakte characters afpelen in een loop op de webapplicatie.
