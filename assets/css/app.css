@@ -1,0 +1,41 @@
+body {
+	color: rgba(2, 4, 85, 0.87);
+	text-align: center;
+}
+
+.pixel, .pixelSelected {
+	width: 25px; 
+	height: 25px; 
+	background: #FFFF; 
+	display: inline-block; 
+	padding: 0; 
+	margin: 2px; 
+    border: 1px solid #000;    
+}
+
+.pixels {
+    text-align: center;
+}
+
+.character {
+	float: left;
+	margin: 0 37px 20px;
+}
+
+.character .pixels .pixel {
+	width: 15px; 
+	height: 15px;
+	margin: 2.5px; 
+}
+
+button {
+    background-color: rgba(2, 4, 85, 0.87);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+	font-size: 16px;
+	margin: 20px
+}
