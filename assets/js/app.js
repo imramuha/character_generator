@@ -8,7 +8,9 @@ function App() {
         _database,
         _saveCharacter,
         _showCharacters,
-        _gallery;
+        _gallery,
+        _interval,
+        _status;
 
 
     // initializing all whats needed in the right order
@@ -19,6 +21,7 @@ function App() {
 
         _selected = false;
         _arr = [];
+        _interval = 0;
 
         // cache dom elements
         _pixelsContainer = document.querySelector('.container');
@@ -57,11 +60,9 @@ function App() {
         for (let i = 0; i < _pixel.length; i++) {
             _pixel[i].addEventListener("click", function (event) {
                 selected(_pixel[i]);
-                console.log('1')
                 updateCharacter(_selected);
             })
         }
-        console.log('2')
         updateCharacter(_selected);
     }
 
@@ -77,8 +78,8 @@ function App() {
     }
 
     function saveCharacter(_selected, _arr) {
-        console.log(_selected);
         if (_selected == true) {
+            // console.log(_arr)
             _ref.update({
                 selected: _arr,
             });
@@ -92,7 +93,7 @@ function App() {
     // update the status of the chracter the person is currently working on, and also save it when done by pressing on save
     function updateCharacter(selected) {
         if (document.querySelector(".container").childNodes) {
-            console.log('3')
+
             const arr = [];
 
             // Get the background colors from the elements and push them as pixel with x,y in an array
@@ -108,7 +109,6 @@ function App() {
                     }
                 }
             }
-            console.log(selected)
             saveCharacter(selected, arr)
         } else {
             console.log('No pixels were found!');
@@ -118,7 +118,7 @@ function App() {
     function updatePixel() {
         // update the selected character in database
         character = document.querySelectorAll('.character');
-        console.log(character);
+
         for (var i = 0; i < character.length; i++) {
             character[i].addEventListener('click', function () {
                 _id = this.id
@@ -150,11 +150,8 @@ function App() {
                                 _pixel[i].addEventListener("click", function (event) {
                                     selected(_pixel[i]);
                                 })
-
                             }
-
                         }
-
                     })
                 })
                 pixelEvent(_selected);
@@ -211,7 +208,6 @@ function App() {
         if (document.querySelector(".container").childNodes) {
             for (let i = 0; i < _pixel.length; i++) {
                 _arr.push(_pixel[i].style.backgroundColor = "rgb(0, 0, 0)");
-                console.log(_arr)
             }
         } else {
             console.log('No pixels were found!');
@@ -220,33 +216,82 @@ function App() {
         createCharacterMatrix();
     })
 
-    //   Loop                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-    /*document.querySelector('.loop').addEventListener('click', function () {
-        _selecter = true;
-        _arr = [];
-        _database.ref().child('characters').on("value", function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
 
-                this._arr.push(childSnapshot.val());
-                // console.log(childSnapshot.val());
-                // vali(childSnapshot.val())
-                console.log(this._arr);
-                //setInterval(function () { saveCharacter(_selected, _arr) }, 5000);
+
+    function loopThroughCharacters(_selected, _arr) {
+        
+        if (_arr.length) {
+            _interval = setInterval(function () {
+                this.mm = 4500;
+                for (var i = 0; i < _arr.length; i++) {
+                    // for each iteration console.log a word
+                    // and make a pause after it
+                    (function (i) {
+                        setTimeout(function () {
+                            saveCharacter(_selected, _arr[i]);
+
+                            // show the selected character - dirty tbd in function
+                            tempStr2 = '';
+                            let x = 0;
+                            for (var j = 0; j < 8; j++) {
+                                tempStr2 += `<div class="pixels" style="background-color: rgb(255, 255, 255);">`
+                                for (var k = 0; k < 8; k++) {
+                                    tempStr2 += `<div class="pixelSelected" style="background-color:  ${_arr[i][x]};"></div>`
+                                    x++
+                                }
+                                tempStr2 += `</div>`
+                            }
+                            _pixelsContainer.innerHTML = tempStr2;
+
+                        }, 1000 * i);
+                    })(i);
+
+                }
+               
+            }, 4500);
+
+        } else {
+            // issue ><
+            //  console.log(_interval)
+            // clearInterval(_interval);
+
+            location.reload();
+        }
+
+    }
+
+    // Loop button listener                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+    document.querySelector('.loop').addEventListener('click', function () {
+        _selected = true;
+        _arr = [];
+        _status = true;
+
+        if (document.querySelector('.loop')) {
+            document.querySelector('.loop').className = "loopOn"
+            document.querySelector('.loopOn').innerHTML = "Loop on"
+            document.querySelector('.loopOn').style.backgroundColor = "red";
+
+
+            _database.ref().child('characters').on("value", function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    this._arr.push(childSnapshot.val());
+                })
             })
 
-        })
-        setTimeout(function () {
-            console.log(_arr.length)
-            if (_arr) {
-                console.log(_arr.length)
-                for (let i = 0; i < _arr.length; i++) {
-                    saveCharacter(_selected, _arr);
-                }
-            }
-            _arr = [];
-        }, 2000);
+            setTimeout(function () {
+                loopThroughCharacters(_selected, _arr);
+            }, 2000);
+        } else if (!document.querySelector('.loop')) {
+            el = document.querySelector('.loopOn').className = "loop";
+            document.querySelector('.loop').innerHTML = "Loop off"
+            document.querySelector('.loop').style.backgroundColor = "#020455de";
 
-    })*/
+            _arr = [];
+            loopThroughCharacters(_selected, _arr)
+        }
+
+    })
+
 
 
 
